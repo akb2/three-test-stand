@@ -1,0 +1,54 @@
+{
+  "name": "@akb2/three-test-stand",
+  "version": "1.0.0",
+  "description": "Test stand for Three.js",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "keywords": [
+    "three",
+    "three.js",
+    "geometry"
+  ],
+  "author": "akb2",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akb2/three-test-stand.git"
+  },
+  "bugs": {
+    "url": "https://github.com/akb2/three-test-stand/issues"
+  },
+  "peerDependencies": {
+    "@types/three": ">=0.159 <1",
+    "three": ">=0.159 <1"
+  },
+  "devDependencies": {
+    "@storybook/preact-vite": "^9.1.10",
+    "@types/jest": "^30.0.0",
+    "@types/three": "^0.159.0",
+    "preact": "^10.27.2",
+    "storybook": "^9.1.10",
+    "three": "^0.159.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.10"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format esm,cjs --clean --out-dir dist --minify",
+    "storybook": "storybook dev -p 6006",
+    "publish": "npm publish --access public"
+  }
+}
