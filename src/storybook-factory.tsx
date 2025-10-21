@@ -10,29 +10,20 @@ import { sceneFactory } from "./scene-factory";
 export const storybookFactory = ({
   controlTarget = new Vector3(),
   cameraPosition = new Vector3(),
-  objects: mixedObjects
+  objects: mixedObjects,
+  renderFunc,
 }: StorybookFactoryParams): StoryObj => ({
   render: args => {
     const hostRef = useRef<HTMLDivElement>(null);
     const objects = anyToArray(mixedObjects);
+    const scene = sceneFactory(new Color(0xbbbbbb), ...objects);
+    const renderer = rendererFactory(hostRef, scene, controlTarget, cameraPosition);
 
-    useLayoutEffect(() => {
-      const host = hostRef.current;
+    renderFunc?.({ args, scene, renderer });
 
-      if (!host) {
-        return;
-      }
-
-      const [scene, sceneDestroy] = sceneFactory(new Color(0xffffff), ...objects);
-      const [renderer, rendererDestroy] = rendererFactory(host, scene, controlTarget, cameraPosition);
-
-      return () => {
-        host.removeChild(renderer.domElement);
-        rendererDestroy();
-        sceneDestroy();
-        objects.forEach(meshDispose);
-        renderer.dispose();
-      };
+    useLayoutEffect(() => () => {
+      objects.forEach(meshDispose);
+      renderer.dispose();
     });
 
     return <div ref={hostRef} />;

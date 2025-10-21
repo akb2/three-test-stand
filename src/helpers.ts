@@ -1,3 +1,5 @@
+import { RefObject } from "preact";
+import { useLayoutEffect } from "preact/hooks";
 import { Material, Mesh } from "three";
 import { ObjectType } from "./models";
 
@@ -15,3 +17,11 @@ export const meshDispose = (mesh: ObjectType): void => {
     mesh.dispose();
   }
 };
+
+export const onElementDefined = <E extends HTMLElement = HTMLElement>(ref: RefObject<E>, callback: (element: E) => void) => useLayoutEffect(() => {
+  const element = ref.current;
+
+  if (element) {
+    return callback(element);
+  }
+});
